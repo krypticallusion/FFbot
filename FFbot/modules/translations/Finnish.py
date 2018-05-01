@@ -11,5 +11,8 @@ FinnishStrings = {"Switched to {} successfully!" : "Vaihdettu suomen {} onnistun
                   "I don't have access to the invite link, try changing my permissions!" : "Minulla ei ole valtuuksia kutsulinkkiin, kokeile muuttaa käyttöoikeuksiani!" ,
                   "I can only give you invite links for supergroups and channels, sorry!" : "Kykenen antamaan kutsulinkkejä ainoastaan superryhmille ja kanaville, pahoittelen!" ,
                   "Admins in *{}*:" : "Ylläpitäjät ryhmässä *{}*:" ,
-                  "You are *admin*: `{}`" : "Olet *ylläpitäjä*: `{}`"}
-
+                  "You are *admin*: `{}`" : "Olet *ylläpitäjä*: `{}`" ,
+                  "{} is now AFK!" : "{} on nyt AFK!" ,
+                  "{} is no longer AFK!" : "{} ei ole enää AFK!" ,
+                  "{} is AFK!" : "{} on AFK!" ,
+                  "{} is AFK! says its because of:\n{}" : "sanoo sen tämän takia:\n{}"}
