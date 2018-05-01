@@ -15,7 +15,7 @@ def change_locale(bot, update, args):
             else:
                 update.message.reply_text("{} not supported yet!".format(list_locales[locale]))
         else:
-            update.message.reply_text("Is this even a language?")
+            update.message.reply_text("Is that even a valid language code? Use an internationally accepted ISO code!")
     else:
         update.message.reply_text("You haven't give me a locale to begin with!")
 
