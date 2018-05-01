@@ -47,4 +47,5 @@ FinnishStrings = {"Switched to {} successfully!" : "Vaihdettu suomen {} onnistun
                   "Huh? I can't :/" : "Häh? En voi :/" ,
                   "How would I unban myself if I wasn't here...?" : "Miten voin poistaa porttikieltoni jos en koskaan ollut täällä...?" ,
                   "Why are you trying to unban someone that's already in the chat?" : "Miksi yrität poistaa jonkun toisen porttikieltoa, joka on jo chatissa?" ,
-                  "Yep, this user can join!" : "Jep, tämä käyttäjä voi liittyä!" }
+                  "Yep, this user can join!" : "Jep, tämä käyttäjä voi liittyä!" ,
+                  "Damn admins, can't even be warned!" : "Perhanan ylläpitäjät, ei voi edes varoitusta antaa!"}
