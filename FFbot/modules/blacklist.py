@@ -96,9 +96,7 @@ def unblacklist(bot: Bot, update: Update):
 
         else:
             msg.reply_text(
-                tld(chat.id, "Removed <code>{}</code> triggers from the blacklist. {} did not exist, "
-                "so were not removed.").format(successful, len(to_unblacklist) - successful),
-                parse_mode=ParseMode.HTML)
+                tld(chat.id, "Removed <code>{}</code> triggers from the blacklist. {} did not exist, so were not removed.").format(successful, len(to_unblacklist) - successful),parse_mode=ParseMode.HTML)
     else:
         msg.reply_text(tld(chat.id, "Tell me which words you would like to remove from the blacklist."))
 

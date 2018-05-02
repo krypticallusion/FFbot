@@ -48,4 +48,17 @@ FinnishStrings = {"Switched to {} successfully!" : "Vaihdettu suomen {} onnistun
                   "How would I unban myself if I wasn't here...?" : "Miten voin poistaa porttikieltoni jos en koskaan ollut täällä...?" ,
                   "Why are you trying to unban someone that's already in the chat?" : "Miksi yrität poistaa jonkun toisen porttikieltoa, joka on jo chatissa?" ,
                   "Yep, this user can join!" : "Jep, tämä käyttäjä voi liittyä!" ,
-                  "Damn admins, can't even be warned!" : "Perhanan ylläpitäjät, ei voi edes varoitusta antaa!"}
+                  "Damn admins, can't even be warned!" : "Perhanan ylläpitäjät, ei voi edes varoitusta antaa!" ,
+                  "There are no blacklisted messages here!" : "Täällä ei ole mustalistattuja sanoja!" ,
+                  "Added <code>{}</code> to the blacklist!" : "Lisätty <code>{}</code> mustalle listalle!" ,
+                  "Added <code>{}</code> triggers to the blacklist." : "Lisätty <code>{}</code> laukaisimet mustalle listalle." ,
+                  "Tell me which words you would like to remove from the blacklist." : "Kerro minulle, mitkä sanat haluat minun poistavan mustalta listalta." ,
+                  "Removed <code>{}</code> from the blacklist!" : "Poistettu <code>{}</code> mustalta listalta!" ,
+                  "This isn't a blacklisted trigger...!" : "Tämä ei ole mustalistattu laukaisin...!" ,
+                  "Removed <code>{}</code> triggers from the blacklist." : "Poistettu <code>{}</code> laukaisimet mustalta listalta." ,
+                  "None of these triggers exist, so they weren't removed." : "Mikään näistä laukaisimista ei ole olemassa, joten niitä ei poistettu." ,
+                  "Removed <code>{}</code> triggers from the blacklist. {} did not exist, so were not removed." : "Poistettu <code>{}</code> laukaisimet mustalta listalta. {} ei ollut olemassa, joten ei poistettu." ,
+                  "Tell me which words you would like to remove from the blacklist." : "Kerro minulle, mitkä sanat haluat minun poistavan mustalta listalta." ,
+                  "Message to delete not found" : "Positettavaa viestiä ei löytynyt" ,
+                  "Error while deleting blacklist message." : "Virhe poistettaessa mustalistattua viestiä." ,
+                  "There are {} blacklisted words." : "On olemassa {} mustalistattuja sanoja."}
