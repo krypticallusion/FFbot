@@ -1,5 +1,5 @@
 IndonesianStrings = {
-    "Switched to {} successfully!": "Beralih ke {} berhasil!"
+    "Switched to {} successfully!": "Beralih ke {} berhasil!",
     "*Filters in this chat:*\\n": "*Filter di chat ini:*\\n",
     "*Not* currently enforcing flood control.": "Sedang tidak menegakkan pengendalian flood.",
     "*Notes in chat:*\\n": "*Catatan di chat:*\\n",
