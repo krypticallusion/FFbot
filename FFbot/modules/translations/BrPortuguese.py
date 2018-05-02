@@ -1,4 +1,4 @@
-PortugueseStrings = {
+BrPortugueseStrings = {
     "Switched to {} successfully!" : "Mudou para {} com sucesso!",
     "*Filters in this chat:*\\n": "*Filtros neste grupo:*\\n",
     "*Not* currently enforcing flood control.": "Eu *não* estou atualmente impondo o controle de flood.",

@@ -3,7 +3,7 @@ from FFbot.modules.translations.German import GermanStrings
 from FFbot.modules.translations.Dutch import DutchStrings
 from FFbot.modules.translations.Indonesian import IndonesianStrings
 from FFbot.modules.translations.Finnish import FinnishStrings
-from FFbot.modules.translations.Portuguese import PortugueseStrings
+from FFbot.modules.translations.BrPortuguese import BrPortugueseStrings
 
 def tld(chat_id, t, show_none=True):
     LANGUAGE = prev_locale(chat_id)
@@ -17,8 +17,8 @@ def tld(chat_id, t, show_none=True):
            return IndonesianStrings[t]
         elif LOCALE in ('fi') and t in FinnishStrings:
            return FinnishStrings[t]
-        elif (LOCALE in ('pt') or LOCALE in ('pt-br')) and t in PortugueseStrings:
-           return PortugueseStrings[t]
+        elif LOCALE in ('pt-br') and t in BrPortugueseStrings:
+           return BrPortugueseStrings[t]
         else:
            return t
     elif show_none:
