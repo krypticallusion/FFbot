@@ -1,4 +1,4 @@
-from FFbot.modules.sql.translation import switch_to_locale
+from FFbot.modules.sql.translation import switch_to_locale, prev_locale
 from FFbot.modules.translations.strings import tld
 from telegram.ext import CommandHandler
 from FFbot import dispatcher
@@ -21,5 +21,17 @@ def change_locale(bot, update, args):
     else:
         update.message.reply_text("You haven't give me a locale to begin with!")
 
+def curn_locale(bot, update):
+    chat_id = update.effective_chat.id
+    LANGUAGE = prev_locale(chat_id)
+    if LANGUAGE:
+        locale = LANGUAGE.locale_name
+        native_lang = list_locales[locale]
+        update.message.reply_text("Current locale for this chat is : {}".format(native_lang))
+    else:
+        update.message.reply_text("Current locale for this chat is : English")
+
+CURN_LOCALE_HANDLER = CommandHandler("localenow", curn_locale)
 LOCALE_HANDLER = CommandHandler(["set_locale", "locale"], change_locale, pass_args=True)
 dispatcher.add_handler(LOCALE_HANDLER)
+dispatcher.add_handler(CURN_LOCALE_HANDLER)
