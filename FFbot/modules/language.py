@@ -3,7 +3,9 @@ from FFbot.modules.translations.strings import tld
 from telegram.ext import CommandHandler
 from FFbot import dispatcher
 from FFbot.modules.translations.list_locale import list_locales
+from FFbot.modules.helper_funcs.chat_status import user_admin
 
+@user_admin
 def change_locale(bot, update, args):
     chat = update.effective_chat
     if len(args) > 0:
