@@ -6,7 +6,7 @@ from telegram import Message, Chat, Update, Bot, User
 from telegram.error import BadRequest
 from telegram.ext import run_async, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
-
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, User, CallbackQuery
 from FFbot import dispatcher, BAN_STICKER, LOGGER
 from FFbot.modules.disable import DisableAbleCommandHandler
 from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_ban_protected, can_restrict, \
@@ -59,9 +59,10 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         update.effective_chat.kick_member(user_id)
         bot.send_sticker(update.effective_chat.id, BAN_STICKER)  # banhammer marie sticker
-        message.reply_text(tld(chat.id, "Banned!"))
+        keyboard = []
+        reply = "{} has been banned!".format(mention_html(member.user.id, member.user.first_name))
+        message.reply_text(reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
         return log
-
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
