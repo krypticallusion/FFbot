@@ -9,13 +9,16 @@ from telegram import Message, Chat, Update, Bot, MessageEntity
 from telegram import ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
+from telegram.error import BadRequest
 
 from FFbot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER
 from FFbot.__main__ import STATS, USER_INFO
 from FFbot.modules.disable import DisableAbleCommandHandler
 from FFbot.modules.helper_funcs.extraction import extract_user
 from FFbot.modules.helper_funcs.filters import CustomFilters
+from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, can_restrict
 from FFbot.modules.translations.strings import tld
+import FFbot.modules.sql.users_sql as sql
 
 RUN_STRINGS = (
     "Where do you think you're going?",
@@ -324,6 +327,25 @@ def echo(bot: Bot, update: Update):
     message.delete()
 
 
+@run_async
+@bot_admin
+@can_restrict
+@user_admin
+def clean(bot: Bot, update: Update):
+    chat = update.effective_chat
+    message = update.effective_message
+    members = sql.get_chat_members(chat.id)
+    replytext="Usernames -> "
+
+    for member in members:
+        try:
+            mem = bot.get_chat_member(chat.id, member.user)
+            replytext += mem.user.first_name + "->"
+        except BadRequest as excp:
+            update.effective_message.reply_text(excp.message + " " + str(member.user))
+            continue
+    message.reply_text(replytext)
+
 MARKDOWN_HELP = """
 Markdown is a very powerful formatting tool supported by telegram. {} has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
@@ -390,6 +412,8 @@ MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.
 
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter)
 
+CLEAN_HANDLER = DisableAbleCommandHandler("clean", clean)
+
 dispatcher.add_handler(ID_HANDLER)
 dispatcher.add_handler(IP_HANDLER)
 dispatcher.add_handler(TIME_HANDLER)
@@ -399,3 +423,4 @@ dispatcher.add_handler(INFO_HANDLER)
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
+dispatcher.add_handler(CLEAN_HANDLER)
