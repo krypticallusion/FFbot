@@ -1,2 +1,2 @@
-web: python3 -m FFbot
+bot: python3 -m FFbot
 
