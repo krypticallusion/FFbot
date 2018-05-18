@@ -19,7 +19,6 @@ from FFbot.modules.helper_funcs.filters import CustomFilters
 from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, can_restrict
 from FFbot.modules.translations.strings import tld
 import FFbot.modules.sql.users_sql as sql
-import telegram.TelegramError
 
 RUN_STRINGS = (
     "Where do you think you're going?",
@@ -334,20 +333,6 @@ def ping(bot: Bot, update: Update):
     ping_time = float(end_time - start_time)*1000
     update.effective_message.reply_text(" Ping speed was : {}ms".format(ping_time))
 
-@run_async
-def makepack(bot: Bot, update: Update, args: List[string]):
-    if not args:
-        update.effective_message.reply_text("You need to give me a short name for the sticker pack!")
-        return
-    name = args[0] + "_by_FictionalFiesta"
-    userid = update.effective_user.id
-    title = "Kang pack by " + update.effective_user.first_name
-    png_sticker = "BQADBQADTQADxxX5VyLZ4JCluLyLAg"
-    try:
-        bot.create_new_sticker_set(userid, name, title, png_sticker, "😀", )
-    except TelegramError as excp:
-        update.effective_message.reply_text(excp.message)
-
 
 @run_async
 @bot_admin
@@ -435,7 +420,6 @@ MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter)
 
 CLEAN_HANDLER = DisableAbleCommandHandler("clean", clean)
-MAKEPACK_HANDLER = CommandHandler("makepack", makepack, pass_args=True)
 
 dispatcher.add_handler(ID_HANDLER)
 dispatcher.add_handler(PING_HANDLER)
@@ -448,4 +432,3 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(CLEAN_HANDLER)
-dispacther.add_handler(MAKEPACK_HANDLER)
