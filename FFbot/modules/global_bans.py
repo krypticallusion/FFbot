@@ -55,7 +55,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
             message.reply_text("This user is already gbanned; I'd change the reason, but you haven't given me one...")
             return
 
-        success = sql.update_gban_reason(user_id, user_chat.username or user_chat.first_name, reason)
+        success = sql.update_gban_reason(user_id, user_chat.username or user_chat.first_name, reason, user_chat.username)
         if success:
             message.reply_text("This user is already gbanned; I've gone and updated the gban reason though!")
         else:
@@ -73,7 +73,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
                                        mention_html(user_chat.id, user_chat.first_name), reason or "No reason given"),
                  html=True)
 
-    sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
+    sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason, user_chat.username)
 
     chats = get_all_chats()
     for chat in chats:
@@ -207,8 +207,12 @@ def gbanlist(bot: Bot, update: Update):
                                                 caption="Here is the list of currently gbanned users.")
 
 
-def check_and_ban(update, user_id, should_message=True):
+def check_and_ban(update, user_id, username, should_message=True):
     if sql.is_user_gbanned(user_id):
+        update.effective_chat.kick_member(user_id)
+        if should_message:
+            update.effective_message.reply_text("This is a bad person, they shouldn't be here!")
+    elif sql.is_username_gbanned(username):
         update.effective_chat.kick_member(user_id)
         if should_message:
             update.effective_message.reply_text("This is a bad person, they shouldn't be here!")
@@ -223,17 +227,17 @@ def enforce_gban(bot: Bot, update: Update):
         msg = update.effective_message  # type: Optional[Message]
 
         if user and not is_user_admin(chat, user.id):
-            check_and_ban(update, user.id)
+            check_and_ban(update, user.id, user.username)
 
         if msg.new_chat_members:
             new_members = update.effective_message.new_chat_members
             for mem in new_members:
-                check_and_ban(update, mem.id)
+                check_and_ban(update, mem.id, mem.username)
 
         if msg.reply_to_message:
             user = msg.reply_to_message.from_user  # type: Optional[User]
             if user and not is_user_admin(chat, user.id):
-                check_and_ban(update, user.id, should_message=False)
+                check_and_ban(update, user.id, user.name, should_message=False)
 
 
 @run_async

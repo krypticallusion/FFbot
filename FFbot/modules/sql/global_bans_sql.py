@@ -10,11 +10,13 @@ class GloballyBannedUsers(BASE):
     user_id = Column(Integer, primary_key=True)
     name = Column(UnicodeText, nullable=False)
     reason = Column(UnicodeText)
+    username = Column(UnicodeText)
 
-    def __init__(self, user_id, name, reason=None):
+    def __init__(self, user_id, name, reason=None, username=None):
         self.user_id = user_id
         self.name = name
         self.reason = reason
+        self.username = username
 
     def __repr__(self):
         return "<GBanned User {} ({})>".format(self.name, self.user_id)
@@ -22,7 +24,8 @@ class GloballyBannedUsers(BASE):
     def to_dict(self):
         return {"user_id": self.user_id,
                 "name": self.name,
-                "reason": self.reason}
+                "reason": self.reason,
+                "username": self.username}
 
 
 class GbanSettings(BASE):
@@ -44,30 +47,34 @@ GbanSettings.__table__.create(checkfirst=True)
 GBANNED_USERS_LOCK = threading.RLock()
 GBAN_SETTING_LOCK = threading.RLock()
 GBANNED_LIST = set()
+GBANNEDUSERNAME_LIST = set()
 GBANSTAT_LIST = set()
 
 
-def gban_user(user_id, name, reason=None):
+def gban_user(user_id, name, reason=None, username=None):
     with GBANNED_USERS_LOCK:
         user = SESSION.query(GloballyBannedUsers).get(user_id)
         if not user:
-            user = GloballyBannedUsers(user_id, name, reason)
+            user = GloballyBannedUsers(user_id, name, reason, username)
         else:
             user.name = name
             user.reason = reason
+            user.username = username
 
         SESSION.merge(user)
         SESSION.commit()
         __load_gbanned_userid_list()
+        __load_gbanned_username_list()
 
 
-def update_gban_reason(user_id, name, reason=None):
+def update_gban_reason(user_id, name, reason=None, username=None):
     with GBANNED_USERS_LOCK:
         user = SESSION.query(GloballyBannedUsers).get(user_id)
         if not user:
             return False
         user.name = name
         user.reason = reason
+        user.username = username
 
         SESSION.merge(user)
         SESSION.commit()
@@ -82,11 +89,14 @@ def ungban_user(user_id):
 
         SESSION.commit()
         __load_gbanned_userid_list()
+        __load_gbanned_username_list()
 
 
 def is_user_gbanned(user_id):
     return user_id in GBANNED_LIST
 
+def is_username_gbanned(username):
+    return username in GBANNEDUSERNAME_LIST
 
 def get_gbanned_user(user_id):
     try:
@@ -142,6 +152,12 @@ def __load_gbanned_userid_list():
     finally:
         SESSION.close()
 
+def __load_gbanned_username_list():
+    global GBANNEDUSERNAME_LIST
+    try:
+        GBANNEDUSERNAME_LIST = {x.username for x in SESSION.query(GloballyBannedUsers).all()}
+    finally:
+        SESSION.close()
 
 def __load_gban_stat_list():
     global GBANSTAT_LIST
@@ -163,4 +179,5 @@ def migrate_chat(old_chat_id, new_chat_id):
 
 # Create in memory userid to avoid disk access
 __load_gbanned_userid_list()
+__load_gbanned_username_list()
 __load_gban_stat_list()
