@@ -117,7 +117,7 @@ def __chat_settings__(chat_id, user_id):
     if limit == 0:
         return tld(chat_id, "*Not* currently enforcing flood control.")
     else:
-        return tld(chat.id, "Antiflood is set to `{}` messages.").format(limit)
+        return tld(chat_id, "Antiflood is set to `{}` messages.").format(limit)
 
 
 __help__ = """
