@@ -19,6 +19,7 @@ from FFbot.modules.helper_funcs.filters import CustomFilters
 from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, can_restrict
 from FFbot.modules.translations.strings import tld
 import FFbot.modules.sql.users_sql as sql
+from FFbot.modules.sql.safemode_sql import set_safemode, is_safemoded
 
 RUN_STRINGS = (
     "Where do you think you're going?",
@@ -353,6 +354,33 @@ def clean(bot: Bot, update: Update):
             continue
     message.reply_text(replytext)
 
+@run_async
+@bot_admin
+@can_restrict
+@user_admin
+def safe_mode(bot: Bot, update: Update, args: List[str]):
+    chat = update.effective_chat
+    message = update.effective_message
+    if not args:
+        message.reply_text("This chat has its Safe Mode set to *{}*".format(is_safemoded(chat.id).safemode_status), parse_mode=ParseMode.MARKDOWN)
+        return
+
+    if str(args[0]).lower() in ["on", "yes"]:
+        set_safemode(chat.id, True)
+        message.reply_text("Safe Mode has been set to *{}*".format(is_safemoded(chat.id).safemode_status), parse_mode=ParseMode.MARKDOWN)
+        return
+
+    elif str(args[0]).lower() in ["off", "no"]:
+        set_safemode(chat.id, False)
+        message.reply_text("Safe Mode has been set to *{}*".format(is_safemoded(chat.id).safemode_status), parse_mode=ParseMode.MARKDOWN)
+        return
+    else:
+        message.reply_text("I only recognize the arguments `{}`, `{}`, `{}` or `{}`".format("Yes", "No", "On", "Off"), parse_mode=ParseMode.MARKDOWN)
+
+
+
+
+
 MARKDOWN_HELP = """
 Markdown is a very powerful formatting tool supported by telegram. {} has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
@@ -410,6 +438,7 @@ IP_HANDLER = CommandHandler("ip", get_bot_ip, filters=Filters.chat(OWNER_ID))
 
 TIME_HANDLER = CommandHandler("time", get_time, pass_args=True)
 
+SAFEMODE_HANDLER = CommandHandler("safemode", safe_mode, pass_args=True)
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
@@ -432,3 +461,4 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(CLEAN_HANDLER)
+dispatcher.add_handler(SAFEMODE_HANDLER)
