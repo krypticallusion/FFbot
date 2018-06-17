@@ -148,7 +148,6 @@ def save(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
-    args = raw_text.split(None, 2)  # use python's maxsplit to separate Cmd, note_name, and data
 
     if len(args) >= 3:
         note_name = args[1]
