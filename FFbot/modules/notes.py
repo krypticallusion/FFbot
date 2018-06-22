@@ -59,7 +59,7 @@ def get(bot, update, notename, show_none=True):
         else:
             keyb = []
             if note.has_buttons:
-                buttons = sql.get_buttons(chat_id, notename)
+                buttons = (sql.get_buttons(chat_id, notename)).lower()
                 keyb = build_keyboard(buttons)
 
             keyboard = InlineKeyboardMarkup(keyb)
@@ -111,9 +111,9 @@ def save_replied(bot: Bot, update: Update):
     text = update.effective_message.text
     args = text.split(None, 3)  # use python's maxsplit to separate Cmd, note_name, and data
     if len(args) == 3 and args[1] == "from":
-        notename = args[2]
+        notename = args[2].lower()
     elif len(args) >= 2:
-        notename = args[1]
+        notename = args[1].lower()
     else:
         update.effective_message.reply_text(tld(chat_id, "You need to give me a notename to save this message!"))
         return
@@ -148,10 +148,11 @@ def save(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
+    args = raw_text.split(None, 2)
 
     if len(args) >= 3:
-        note_name = args[1]
-        note = args[2]
+        note_name = args[1].lower()
+        note = args[2].lower()
 
         offset = len(note) - len(raw_text)  # set correct offset relative to command + notename
         markdown_note, buttons = button_markdown_parser(note, entities=msg.parse_entities(), offset=offset)
@@ -176,7 +177,7 @@ def save(bot: Bot, update: Update):
 def clear(bot: Bot, update: Update, args: List[str]):
     chat_id = update.effective_chat.id
     if len(args) >= 1:
-        notename = args[0]
+        notename = args[0].lower()
 
         if sql.rm_note(chat_id, notename):
             update.effective_message.reply_text(tld(chat_id, "Successfully removed note."))
