@@ -12,7 +12,7 @@ import FFbot.modules.sql.locks_sql as sql
 from FFbot import dispatcher, SUDO_USERS, LOGGER
 from FFbot.modules.disable import DisableAbleCommandHandler
 from FFbot.modules.helper_funcs.chat_status import can_delete, is_user_admin, user_not_admin, user_admin, \
-    bot_can_delete, is_bot_admin
+    bot_can_delete, is_bot_admin, user_is_gbanned
 from FFbot.modules.helper_funcs.filters import CustomFilters
 from FFbot.modules.log_channel import loggable
 from FFbot.modules.sql import users_sql
@@ -76,11 +76,13 @@ def unrestr_members(bot, chat_id, members, messages=True, media=True, other=True
             pass
 
 
+@user_is_gbanned
 @run_async
 def locktypes(bot: Bot, update: Update):
     update.effective_message.reply_text("\n - ".join(["Locks: "] + list(LOCK_TYPES) + list(RESTRICTION_TYPES)))
 
 
+@user_is_gbanned
 @user_admin
 @bot_can_delete
 @loggable
@@ -122,6 +124,7 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable
@@ -260,6 +263,7 @@ def build_lock_message(chat_id):
     return res
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def list_locks(bot: Bot, update: Update):

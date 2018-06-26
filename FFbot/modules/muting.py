@@ -7,11 +7,12 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html
 from FFbot.modules.translations.strings import tld
 from FFbot import dispatcher
-from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_admin, is_user_ban_protected, can_restrict
+from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_admin, is_user_ban_protected, can_restrict, user_is_gbanned
 from FFbot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from FFbot.modules.log_channel import loggable
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @user_admin
@@ -54,6 +55,7 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -147,6 +149,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
 
     return ""
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @user_admin

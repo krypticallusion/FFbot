@@ -8,11 +8,12 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html
 
 from FFbot import dispatcher, LOGGER
-from FFbot.modules.helper_funcs.chat_status import user_admin, can_delete
+from FFbot.modules.helper_funcs.chat_status import user_admin, can_delete, user_is_gbanned
 from FFbot.modules.log_channel import loggable
 from FFbot.modules.translations.strings import tld
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable
@@ -61,6 +62,7 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable

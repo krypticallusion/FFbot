@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 import FFbot.modules.sql.blacklist_sql as sql
 from FFbot import dispatcher, LOGGER
 from FFbot.modules.disable import DisableAbleCommandHandler
-from FFbot.modules.helper_funcs.chat_status import user_admin, user_not_admin
+from FFbot.modules.helper_funcs.chat_status import user_admin, user_not_admin, user_is_gbanned
 from FFbot.modules.helper_funcs.extraction import extract_text
 from FFbot.modules.helper_funcs.misc import split_message
 from FFbot.modules.translations.strings import tld
@@ -19,6 +19,7 @@ BLACKLIST_GROUP = 11
 BASE_BLACKLIST_STRING = "Current <b>blacklisted</b> words:\n"
 
 
+@user_is_gbanned
 @run_async
 def blacklist(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message  # type: Optional[Message]
@@ -43,6 +44,7 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
         msg.reply_text(text, parse_mode=ParseMode.HTML)
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def add_blacklist(bot: Bot, update: Update):
@@ -67,6 +69,7 @@ def add_blacklist(bot: Bot, update: Update):
         msg.reply_text(tld(chat.id, "Tell me which words you would like to remove from the blacklist."))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def unblacklist(bot: Bot, update: Update):
@@ -106,6 +109,7 @@ def unblacklist(bot: Bot, update: Update):
         msg.reply_text(tld(chat.id, "Tell me which words you would like to remove from the blacklist."))
 
 
+@user_is_gbanned
 @run_async
 @user_not_admin
 def del_blacklist(bot: Bot, update: Update):

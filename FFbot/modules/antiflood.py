@@ -7,7 +7,7 @@ from telegram.ext import Filters, MessageHandler, CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 from FFbot.modules.translations.strings import tld
 from FFbot import dispatcher
-from FFbot.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict
+from FFbot.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict, user_is_gbanned
 from FFbot.modules.log_channel import loggable
 from FFbot.modules.sql import antiflood_sql as sql
 from FFbot.modules.translations.strings import tld
@@ -52,6 +52,7 @@ def check_flood(bot: Bot, update: Update) -> str:
                "\nDon't have kick permissions, so automatically disabled antiflood.".format(chat.title)
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @can_restrict
@@ -96,6 +97,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 def flood(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]

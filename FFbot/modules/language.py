@@ -4,8 +4,9 @@ from telegram.ext import CommandHandler
 from telegram import ParseMode
 from FFbot import dispatcher
 from FFbot.modules.translations.list_locale import list_locales
-from FFbot.modules.helper_funcs.chat_status import user_admin
+from FFbot.modules.helper_funcs.chat_status import user_admin, user_is_gbanned
 
+@user_is_gbanned
 @user_admin
 def change_locale(bot, update, args):
     chat = update.effective_chat
@@ -22,6 +23,7 @@ def change_locale(bot, update, args):
     else:
         update.message.reply_text("You haven't give me a locale to begin with!")
 
+@user_is_gbanned
 def curn_locale(bot, update):
     chat_id = update.effective_chat.id
     LANGUAGE = prev_locale(chat_id)

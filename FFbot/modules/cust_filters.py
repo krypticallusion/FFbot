@@ -10,7 +10,7 @@ from telegram.utils.helpers import escape_markdown
 
 from FFbot import dispatcher, LOGGER
 from FFbot.modules.disable import DisableAbleCommandHandler
-from FFbot.modules.helper_funcs.chat_status import user_admin
+from FFbot.modules.helper_funcs.chat_status import user_admin, user_is_gbanned
 from FFbot.modules.helper_funcs.extraction import extract_text
 from FFbot.modules.helper_funcs.filters import CustomFilters
 from FFbot.modules.helper_funcs.misc import build_keyboard
@@ -22,6 +22,7 @@ HANDLER_GROUP = 10
 BASIC_FILTER_STRING =  "*Filters in this chat:*\n"
 
 
+@user_is_gbanned
 @run_async
 def list_handlers(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -45,6 +46,7 @@ def list_handlers(bot: Bot, update: Update):
 
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
+@user_is_gbanned
 @user_admin
 def filters(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -119,6 +121,7 @@ def filters(bot: Bot, update: Update):
 
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
+@user_is_gbanned
 @user_admin
 def stop_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -142,6 +145,7 @@ def stop_filter(bot: Bot, update: Update):
     update.effective_message.reply_text(tld(chat.id, "That's not a current filter - run /filters for all active filters."))
 
 
+@user_is_gbanned
 @run_async
 def reply_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]

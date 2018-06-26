@@ -10,11 +10,12 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, User
 from FFbot import dispatcher, BAN_STICKER, LOGGER
 from FFbot.modules.disable import DisableAbleCommandHandler
 from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_ban_protected, can_restrict, \
-    is_user_admin, is_user_in_chat
+    is_user_admin, is_user_in_chat, user_is_gbanned
 from FFbot.modules.helper_funcs.extraction import extract_user_and_text
 from FFbot.modules.log_channel import loggable
 from FFbot.modules.helper_funcs.filters import CustomFilters
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -77,6 +78,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -172,6 +174,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -225,6 +228,7 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -243,6 +247,7 @@ def kickme(bot: Bot, update: Update):
         update.effective_message.reply_text(tld(chat.id, "Huh? I can't :/"))
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -290,6 +295,7 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
     return log
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 def rban(bot: Bot, update: Update, args: List[str]):

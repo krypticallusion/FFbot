@@ -13,7 +13,7 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 
 # If module is due to be loaded, then setup all the magical handlers
 if is_module_loaded(FILENAME):
-    from FFbot.modules.helper_funcs.chat_status import user_admin, is_user_admin
+    from FFbot.modules.helper_funcs.chat_status import user_admin, is_user_admin, user_is_gbanned
     from telegram.ext.dispatcher import run_async
 
     from FFbot.modules.sql import disable_sql as sql
@@ -63,7 +63,7 @@ if is_module_loaded(FILENAME):
             chat = update.effective_chat
             return super().check_update(update) and not sql.is_command_disabled(chat.id, self.friendly)
 
-
+    @user_is_gbanned
     @run_async
     @user_admin
     def disable(bot: Bot, update: Update, args: List[str]):
@@ -84,6 +84,7 @@ if is_module_loaded(FILENAME):
             update.effective_message.reply_text(tld(chat.id, "What should I disable?"))
 
 
+    @user_is_gbanned
     @run_async
     @user_admin
     def enable(bot: Bot, update: Update, args: List[str]):
@@ -103,6 +104,7 @@ if is_module_loaded(FILENAME):
             update.effective_message.reply_text("What should I enable?")
 
 
+    @user_is_gbanned
     @run_async
     @user_admin
     def list_cmds(bot: Bot, update: Update):

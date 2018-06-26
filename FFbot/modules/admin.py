@@ -10,12 +10,13 @@ from telegram.utils.helpers import escape_markdown, mention_html
 from FFbot.modules.translations.strings import tld
 from FFbot import dispatcher
 from FFbot.modules.disable import DisableAbleCommandHandler
-from FFbot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin
+from FFbot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, user_is_gbanned
 from FFbot.modules.helper_funcs.extraction import extract_user
 from FFbot.modules.log_channel import loggable
 from FFbot.modules.translations.strings import tld
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_promote
@@ -63,6 +64,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
                                       mention_html(user_member.user.id, user_member.user.first_name))
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_promote
@@ -115,6 +117,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_pin
@@ -147,6 +150,7 @@ def pin(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_pin
@@ -170,6 +174,7 @@ def unpin(bot: Bot, update: Update) -> str:
                                        mention_html(user.id, user.first_name))
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @user_admin
@@ -187,7 +192,7 @@ def invite(bot: Bot, update: Update):
     else:
         update.effective_message.reply_text(tld(chat.id, "I can only give you invite links for supergroups and channels, sorry!"))
 
-
+@user_is_gbanned
 @run_async
 def adminlist(bot: Bot, update: Update):
     administrators = update.effective_chat.get_administrators()

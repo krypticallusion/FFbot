@@ -10,7 +10,7 @@ from telegram.utils.helpers import mention_markdown, mention_html, escape_markdo
 import FFbot.modules.sql.welcome_sql as sql
 from FFbot.modules.sql.safemode_sql import is_safemoded
 from FFbot import dispatcher, OWNER_ID, LOGGER
-from FFbot.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected
+from FFbot.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected, user_is_gbanned
 from FFbot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from FFbot.modules.helper_funcs.string_handling import button_markdown_parser, markdown_parser, \
     escape_invalid_curly_brackets
@@ -203,6 +203,7 @@ def left_member(bot: Bot, update: Update):
             send(update, res, keyboard, sql.DEFAULT_GOODBYE)
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def welcome(bot: Bot, update: Update, args: List[str]):
@@ -249,6 +250,7 @@ def welcome(bot: Bot, update: Update, args: List[str]):
             update.effective_message.reply_text("I understand 'on/yes' or 'off/no' only!")
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def goodbye(bot: Bot, update: Update, args: List[str]):
@@ -295,6 +297,7 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
             update.effective_message.reply_text("I understand 'on/yes' or 'off/no' only!")
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable
@@ -353,6 +356,7 @@ def set_welcome(bot: Bot, update: Update) -> str:
                                                mention_html(user.id, user.first_name))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable
@@ -368,6 +372,7 @@ def reset_welcome(bot: Bot, update: Update) -> str:
                                                             mention_html(user.id, user.first_name))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable
@@ -425,6 +430,7 @@ def set_goodbye(bot: Bot, update: Update) -> str:
                                                mention_html(user.id, user.first_name))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable
@@ -440,6 +446,7 @@ def reset_goodbye(bot: Bot, update: Update) -> str:
                                                  mention_html(user.id, user.first_name))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable

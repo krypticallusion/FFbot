@@ -8,10 +8,11 @@ from telegram.utils.helpers import escape_markdown
 from FFbot.modules.translations.strings import tld
 import FFbot.modules.sql.rules_sql as sql
 from FFbot import dispatcher
-from FFbot.modules.helper_funcs.chat_status import user_admin
+from FFbot.modules.helper_funcs.chat_status import user_admin, user_is_gbanned
 from FFbot.modules.helper_funcs.string_handling import markdown_parser
 
 
+@user_is_gbanned
 @run_async
 def get_rules(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
@@ -51,6 +52,7 @@ def send_rules(update, chat_id, from_pm=False):
                                             "This probably doesn't mean it's lawless though...!"))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def set_rules(bot: Bot, update: Update):
@@ -67,6 +69,7 @@ def set_rules(bot: Bot, update: Update):
         update.effective_message.reply_text(tld(chat_id, "Successfully set rules for this group."))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def clear_rules(bot: Bot, update: Update):

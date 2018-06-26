@@ -12,7 +12,7 @@ from telegram.utils.helpers import mention_html
 from FFbot import dispatcher, BAN_STICKER
 from FFbot.modules.disable import DisableAbleCommandHandler
 from FFbot.modules.helper_funcs.chat_status import is_user_admin, bot_admin, user_admin_no_reply, user_admin, \
-    can_restrict
+    can_restrict, user_is_gbanned
 from FFbot.modules.helper_funcs.extraction import extract_text, extract_user_and_text, extract_user
 from FFbot.modules.helper_funcs.filters import CustomFilters
 from FFbot.modules.helper_funcs.misc import split_message
@@ -122,6 +122,7 @@ def button(bot: Bot, update: Update) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @can_restrict
@@ -143,6 +144,7 @@ def warn_user(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @bot_admin
@@ -169,6 +171,7 @@ def reset_warns(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 def warns(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message  # type: Optional[Message]
@@ -196,6 +199,7 @@ def warns(bot: Bot, update: Update, args: List[str]):
 
 
 # Dispatcher handler stop - do not async
+@user_is_gbanned
 @user_admin
 def add_warn_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -227,6 +231,7 @@ def add_warn_filter(bot: Bot, update: Update):
     raise DispatcherHandlerStop
 
 
+@user_is_gbanned
 @user_admin
 def remove_warn_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -259,6 +264,7 @@ def remove_warn_filter(bot: Bot, update: Update):
     msg.reply_text(tld(chat.id, "That's not a current warning filter - run /warnlist for all active warning filters."))
 
 
+@user_is_gbanned
 @run_async
 def list_warn_filters(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -301,6 +307,7 @@ def reply_filter(bot: Bot, update: Update) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 @loggable
@@ -330,6 +337,7 @@ def set_warn_limit(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def set_warn_strength(bot: Bot, update: Update, args: List[str]):

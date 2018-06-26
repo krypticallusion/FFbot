@@ -9,11 +9,13 @@ from FFbot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHan
 from FFbot.modules.sql import afk_sql as sql
 from FFbot.modules.users import get_user_id
 from FFbot.modules.translations.strings import tld
+from FFbot.modules.helper_funcs.chat_status import user_is_gbanned
 
 AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
+@user_is_gbanned
 @run_async
 def afk(bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
@@ -26,6 +28,7 @@ def afk(bot: Bot, update: Update):
     update.effective_message.reply_text(tld(update.effective_chat.id, "{} is now AFK!").format(update.effective_user.first_name))
 
 
+@user_is_gbanned
 @run_async
 def no_longer_afk(bot: Bot, update: Update):
     user = update.effective_user  # type: Optional[User]
@@ -38,6 +41,7 @@ def no_longer_afk(bot: Bot, update: Update):
         update.effective_message.reply_text(tld(update.effective_chat.id, "{} is no longer AFK!").format(update.effective_user.first_name))
 
 
+@user_is_gbanned
 @run_async
 def reply_afk(bot: Bot, update: Update):
     message = update.effective_message  # type: Optional[Message]

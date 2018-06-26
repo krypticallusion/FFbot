@@ -7,6 +7,7 @@ from telegram.ext import run_async
 
 from FFbot import dispatcher, LOGGER
 from FFbot.modules.disable import DisableAbleRegexHandler
+from FFbot.modules.helper_funcs.chat_status import user_is_gbanned
 
 DELIMITERS = ("/", ":", "|", "_")
 
@@ -49,6 +50,7 @@ def separate_sed(sed_string):
         return replace, replace_with, flags.lower()
 
 
+@user_is_gbanned
 @run_async
 def sed(bot: Bot, update: Update):
     sed_result = separate_sed(update.effective_message.text)

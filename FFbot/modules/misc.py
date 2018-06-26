@@ -16,7 +16,7 @@ from FFbot.__main__ import STATS, USER_INFO
 from FFbot.modules.disable import DisableAbleCommandHandler
 from FFbot.modules.helper_funcs.extraction import extract_user
 from FFbot.modules.helper_funcs.filters import CustomFilters
-from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, can_restrict
+from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, can_restrict, user_is_gbanned
 from FFbot.modules.translations.strings import tld
 import FFbot.modules.sql.users_sql as sql
 from FFbot.modules.sql.safemode_sql import set_safemode, is_safemoded
@@ -138,11 +138,13 @@ GMAPS_LOC = "https://maps.googleapis.com/maps/api/geocode/json"
 GMAPS_TIME = "https://maps.googleapis.com/maps/api/timezone/json"
 
 
+@user_is_gbanned
 @run_async
 def runs(bot: Bot, update: Update):
     update.effective_message.reply_text(random.choice(RUN_STRINGS))
 
 
+@user_is_gbanned
 @run_async
 def slap(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message  # type: Optional[Message]
@@ -190,6 +192,7 @@ def get_bot_ip(bot: Bot, update: Update):
     update.message.reply_text(res.text)
 
 
+@user_is_gbanned
 @run_async
 def get_id(bot: Bot, update: Update, args: List[str]):
     user_id = extract_user(update.effective_message, args)
@@ -219,6 +222,7 @@ def get_id(bot: Bot, update: Update, args: List[str]):
                                                 parse_mode=ParseMode.MARKDOWN)
 
 
+@user_is_gbanned
 @run_async
 def info(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message  # type: Optional[Message]
@@ -275,6 +279,7 @@ def info(bot: Bot, update: Update, args: List[str]):
     update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
+@user_is_gbanned
 @run_async
 def get_time(bot: Bot, update: Update, args: List[str]):
     location = " ".join(args)
@@ -317,6 +322,7 @@ def get_time(bot: Bot, update: Update, args: List[str]):
                 update.message.reply_text("It's {} in {}".format(time_there, location))
 
 
+@user_is_gbanned
 @run_async
 def echo(bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
@@ -327,6 +333,7 @@ def echo(bot: Bot, update: Update):
         message.reply_text(args[1], quote=False)
     message.delete()
 
+@user_is_gbanned
 def ping(bot: Bot, update: Update):
     start_time = time.time()
     bot.send_message(update.effective_chat.id, "Starting ping testing now!")
@@ -335,6 +342,7 @@ def ping(bot: Bot, update: Update):
     update.effective_message.reply_text(" Ping speed was : {}ms".format(ping_time))
 
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -354,6 +362,7 @@ def clean(bot: Bot, update: Update):
             continue
     message.reply_text(replytext)
 
+@user_is_gbanned
 @run_async
 @bot_admin
 @can_restrict
@@ -406,6 +415,7 @@ Keep in mind that your message <b>MUST</b> contain some text other than just a b
 """.format(dispatcher.bot.first_name)
 
 
+@user_is_gbanned
 @run_async
 def markdown_help(bot: Bot, update: Update):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)

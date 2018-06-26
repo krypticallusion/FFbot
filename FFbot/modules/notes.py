@@ -12,7 +12,7 @@ from telegram.utils.helpers import escape_markdown
 import FFbot.modules.sql.notes_sql as sql
 from FFbot import dispatcher, MESSAGE_DUMP, LOGGER
 from FFbot.modules.disable import DisableAbleCommandHandler
-from FFbot.modules.helper_funcs.chat_status import user_admin
+from FFbot.modules.helper_funcs.chat_status import user_admin, user_is_gbanned
 from FFbot.modules.helper_funcs.extraction import extract_text
 from FFbot.modules.helper_funcs.misc import build_keyboard
 from FFbot.modules.helper_funcs.string_handling import button_markdown_parser, markdown_parser
@@ -21,6 +21,7 @@ FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 
 
 # Do not async
+@user_is_gbanned
 def get(bot, update, notename, show_none=True):
     chat_id = update.effective_chat.id
     note = sql.get_note(chat_id, notename)
@@ -87,6 +88,7 @@ def get(bot, update, notename, show_none=True):
         message.reply_text(tld(chat_id, "This note doesn't exist"))
 
 
+@user_is_gbanned
 @run_async
 def cmd_get(bot: Bot, update: Update, args: List[str]):
     if len(args) >= 1:
@@ -96,6 +98,7 @@ def cmd_get(bot: Bot, update: Update, args: List[str]):
         update.effective_message.reply_text("Get rekt")
 
 
+@user_is_gbanned
 @run_async
 def hash_get(bot: Bot, update: Update):
     message = update.effective_message.text
@@ -104,6 +107,7 @@ def hash_get(bot: Bot, update: Update):
     get(bot, update, no_hash, show_none=False)
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def save_replied(bot: Bot, update: Update):
@@ -142,6 +146,7 @@ def save_replied(bot: Bot, update: Update):
     update.effective_message.reply_text(tld(chat_id, "Yas! Added replied message {}").format(notename))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def save(bot: Bot, update: Update):
@@ -172,6 +177,7 @@ def save(bot: Bot, update: Update):
         msg.reply_text(tld(chat_id, "Dude, there's no note"))
 
 
+@user_is_gbanned
 @run_async
 @user_admin
 def clear(bot: Bot, update: Update, args: List[str]):
@@ -185,6 +191,7 @@ def clear(bot: Bot, update: Update, args: List[str]):
             update.effective_message.reply_text(tld(chat_id, "That's not a note in my database!"))
 
 
+@user_is_gbanned
 @run_async
 def list_notes(bot: Bot, update: Update):
     chat_id = update.effective_chat.id

@@ -10,8 +10,10 @@ import FFbot.modules.sql.userinfo_sql as sql
 from FFbot import dispatcher, SUDO_USERS
 from FFbot.modules.disable import DisableAbleCommandHandler
 from FFbot.modules.helper_funcs.extraction import extract_user
+from FFbot.modules.helper_funcs.chat_status import user_is_gbanned
 
 
+@user_is_gbanned
 @run_async
 def about_me(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message  # type: Optional[Message]
@@ -34,6 +36,7 @@ def about_me(bot: Bot, update: Update, args: List[str]):
         update.effective_message.reply_text("You haven't set an info message about yourself yet!")
 
 
+@user_is_gbanned
 @run_async
 def set_about_me(bot: Bot, update: Update):
     message = update.effective_message  # type: Optional[Message]
@@ -49,6 +52,7 @@ def set_about_me(bot: Bot, update: Update):
                 "Your info needs to be under {} characters! You have {}.".format(MAX_MESSAGE_LENGTH // 4, len(info[1])))
 
 
+@user_is_gbanned
 @run_async
 def about_bio(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message  # type: Optional[Message]
@@ -71,6 +75,7 @@ def about_bio(bot: Bot, update: Update, args: List[str]):
         update.effective_message.reply_text("You haven't had a bio set about yourself yet!")
 
 
+@user_is_gbanned
 @run_async
 def set_about_bio(bot: Bot, update: Update):
     message = update.effective_message  # type: Optional[Message]
