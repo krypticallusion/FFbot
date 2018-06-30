@@ -22,8 +22,12 @@ FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 
 # Do not async
 @user_is_gbanned
-def get(bot, update, notename, show_none=True):
-    chat_id = update.effective_chat.id
+def get(bot, update, notename, remote = False, show_none=True):
+    if not remote:
+        chat_id = update.effective_chat.id
+    else:
+        chat_id = remote
+
     note = sql.get_note(chat_id, notename)
     message = update.effective_message  # type: Optional[Message]
 
