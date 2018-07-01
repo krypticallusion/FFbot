@@ -9,11 +9,16 @@ def connect_chat(bot, update, args):
             connect_chat = int(args[0])
         except ValueError:
             update.effective_message.reply_text("Invalid Chat ID provided!")
-        connection_status = connect(update.effective_message.from_user.id, connect_chat)
-        if connection_status:
-             update.effective_message.reply_text(f"Successfully connected to {connect_chat}!")
+        if bot.get_chat_member(connect_chat, update.effective_message.from_user.id).status in ('administrator', 'creator', 'member'):
+            connection_status = connect(update.effective_message.from_user.id, connect_chat)
+            print(bot.get_chat_member(connect_chat, update.effective_message.from_user.id))
+            if connection_status:
+                update.effective_message.reply_text(f"Successfully connected to {connect_chat}!")
+            else:
+                update.effective_message.reply_text("Connection failed!")
         else:
-             update.effective_message.reply_text("Connection failed!")
+            update.effective_message.reply_text("You are not a participant of the given chat, Go away!")
+
     elif len(args) >=1 and not update.effective_chat.type == 'private':
         update.effective_message.reply_text("Usage limited to PMs only!")
     elif update.effective_chat.type == 'private' and not len(args) >= 1:
