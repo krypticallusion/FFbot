@@ -17,16 +17,17 @@ from FFbot.modules.helper_funcs.extraction import extract_text
 from FFbot.modules.helper_funcs.misc import build_keyboard
 from FFbot.modules.helper_funcs.string_handling import button_markdown_parser, markdown_parser
 from FFbot.modules.translations.strings import tld
+from FFbot.modules.sql.remote_sql import get_connected_chat
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 
 
 # Do not async
 @user_is_gbanned
-def get(bot, update, notename, remote = False, show_none=True):
-    if not remote:
+def get(bot, update, notename, show_none=True):
+    if not get_connected_chat(update.effective_message.from_user.id):
         chat_id = update.effective_chat.id
     else:
-        chat_id = remote
+        chat_id = get_connected_chat(update.effective_message.from_user.id).chat_id
 
     note = sql.get_note(chat_id, notename)
     message = update.effective_message  # type: Optional[Message]
