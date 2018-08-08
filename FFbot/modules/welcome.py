@@ -8,7 +8,7 @@ from telegram.ext import MessageHandler, Filters, CommandHandler, run_async
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import FFbot.modules.sql.welcome_sql as sql
-from FFbot.modules.sql.users_sql import is_safemoded
+from FFbot.modules.sql.safemode_sql import is_safemoded
 from FFbot import dispatcher, OWNER_ID, LOGGER
 from FFbot.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected, user_is_gbanned
 from FFbot.modules.helper_funcs.misc import build_keyboard, revert_buttons

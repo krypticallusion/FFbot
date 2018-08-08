@@ -19,7 +19,7 @@ from FFbot.modules.helper_funcs.filters import CustomFilters
 from FFbot.modules.helper_funcs.chat_status import bot_admin, user_admin, can_restrict, user_is_gbanned
 from FFbot.modules.translations.strings import tld
 import FFbot.modules.sql.users_sql as sql
-from FFbot.modules.sql.users_sql import set_safemode, is_safemoded
+from FFbot.modules.sql.safemode_sql import set_safemode, is_safemoded
 
 RUN_STRINGS = (
     "Where do you think you're going?",
