@@ -1,4 +1,3 @@
 FFbot/config.py
 FFbot/captcha.py
-*.pyc
 .idea/
